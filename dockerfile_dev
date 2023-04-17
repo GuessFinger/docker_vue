@@ -1,0 +1,11 @@
+FROM node:alpine
+
+WORKDIR /app
+
+COPY ./package*.json ./
+RUN npm install
+# 因为已经用 -v进行关联了，所以这里可以进行删除
+# 留着也没有什么影响
+COPY ./ ./
+
+CMD ["npm","run","dev"]

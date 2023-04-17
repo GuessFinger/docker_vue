@@ -1,0 +1,14 @@
+# 生产环境怎么进行配置呢？
+# as 表示的就是给定一个 通俗的名称
+FROM node:alpine as builder
+WORKDIR /app
+COPY ./package*.json ./
+RUN npm install
+COPY ./ ./
+# 这里就是打包用的
+RUN  npm run build
+
+# nginx需要做的就是把 打包好的文件 移动到nginx的指定目录下面
+# 你访问80端口的时候，自动加载index.html页面 因为把打包的文件copy过来了，所以可以正常加载
+FROM nginx
+COPY --from=builder /app/dist /usr/share/nginx/html

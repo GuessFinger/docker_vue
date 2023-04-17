@@ -1,0 +1,24 @@
+# 这个版本 3 是固定的，不会进行修改
+version: "3"
+services:
+  vue_demo:
+    build:
+      # 应该改变了dockerfile的命令 要么使用-f 指定
+      # 要么就像下面这种写法 context上线文  dockerfile 指定文件
+      context: .
+      dockerfile: dockerfile_dev
+    ports:
+      - "8087:5173"
+    volumes:
+      - /app/node_modules
+      - .:/app
+  # 如果想要运行测试命令的话
+  tests:
+    build:
+      context: .
+      dockerfile: dockerfile_dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: [ 'npm','run','test' ]
+
